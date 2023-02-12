@@ -61,7 +61,7 @@ class AccountServiceImplTest {
         verify(accountRepository, times(6)).findById(anyLong());
 
         verify(bankRepository, times(2)).findByid(1L);
-        verify(bankRepository).update(any(Bank.class));
+        verify(bankRepository).save(any(Bank.class));
 
 
     }
@@ -101,7 +101,7 @@ class AccountServiceImplTest {
         verify(accountRepository, times(2)).findById(2L);
 
         verify(bankRepository, times(1)).findByid(1L);
-        verify(bankRepository,never()).update(any(Bank.class));
+        verify(bankRepository,never()).save(any(Bank.class));
     }
 
     @Test

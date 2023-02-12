@@ -1,14 +1,14 @@
 package udemy.test_SpringBoot.app.repositories;
 
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import udemy.test_SpringBoot.app.entities.Bank;
 
 import java.util.List;
+import java.util.Optional;
+
 @Repository
-public interface BankRepository {
+public interface BankRepository extends JpaRepository<Bank, Long> {
 
-    List<Bank> findAll();
-    Bank findByid(Long id);
-
-    void update(Bank bank);
+    Optional<Bank> findByid(Long id);
 }

@@ -22,18 +22,18 @@ public class AccountServiceImpl implements IAccountService {
 
     @Override
     public Account findById(Long id) {
-        return accountRepository.findById(id);
+        return accountRepository.findById(id).orElseThrow();
     }
 
     @Override
     public int checkTotalTransfers(Long bankId) {
-        Bank bank = bankRepository.findByid(bankId);
+        Bank bank = bankRepository.findByid(bankId).orElseThrow();
         return bank.getTotalTransfer();
     }
 
     @Override
     public BigDecimal checkSalary(Long id) {
-        Account account = accountRepository.findById(id);
+        Account account = accountRepository.findById(id).orElseThrow();
         return account.getSalary();
     }
 
@@ -42,17 +42,17 @@ public class AccountServiceImpl implements IAccountService {
                                Long bankId,
                                BigDecimal amount) {
 
-        Account originAccount = accountRepository.findById(originAccountId);
+        Account originAccount = accountRepository.findById(originAccountId).orElseThrow();
         originAccount.withdraw(amount);
-        accountRepository.update(originAccount);
+        accountRepository.save(originAccount);
 
-        Account toAccount = accountRepository.findById(toAccountId);
+        Account toAccount = accountRepository.findById(toAccountId).orElseThrow();
         toAccount.deposit(amount);
 
         //si se realiza correctamente la transferencia (sin exceptions) entonces actualizamos el total de transferencias
-        Bank bank = bankRepository.findByid(bankId);
+        Bank bank = bankRepository.findByid(bankId).orElseThrow();
         int totalTransfer = bank.getTotalTransfer();
         bank.setTotalTransfer(++totalTransfer);
-        bankRepository.update(bank);
+        bankRepository.save(bank);
     }
 }
